@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   deployment_pipeline:
@@ -11,3 +14,11 @@ jobs:
     steps:
       - name: Current time
         run: date
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-verson: '16'
+      - name: npm install
+        run: npm install
+      - name: lint
+        run: npm run lint
