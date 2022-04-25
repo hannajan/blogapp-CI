@@ -1,8 +1,13 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import {act} from 'react-dom/test-utils'
 
 describe('<Blog />', () => {
   let user
@@ -42,12 +47,13 @@ describe('<Blog />', () => {
     expect(div).not.toHaveStyle('display: none')
   })
 
-  test('shows full view when view button is pressed', () => {
+  test('shows full view when view button is pressed', async () => {
     const { container } = render(<Blog blog={blog} user={user} handleLike={mockLikeHandler} handleRemove={mockRemoveHandler} />)
 
     const viewButton = screen.getByText('view')
-    userEvent.click(viewButton)
 
+    await act(() => userEvent.click(viewButton))
+    
     const div = container.querySelector('.fullBlogView')
 
     expect(div).not.toHaveStyle('display: none')
@@ -56,14 +62,15 @@ describe('<Blog />', () => {
     expect(div).toHaveTextContent('likes 3')
   })
 
-  test('when like button is pressed twice handler is called twice', () => {
+  test('when like button is pressed twice handler is called twice', async () => {
     render(<Blog blog={blog} user={user} handleLike={mockLikeHandler} handleRemove={mockRemoveHandler} />)
 
     const viewButton = screen.getByText('view')
-    userEvent.click(viewButton)
+    await act(() => userEvent.click(viewButton))
     const likeButton = screen.getByText('like')
-    userEvent.click(likeButton)
-    userEvent.click(likeButton)
+
+    await act (() => userEvent.click(likeButton))
+    await act (() => userEvent.click(likeButton))
 
     expect(mockLikeHandler.mock.calls).toHaveLength(2)
   })
