@@ -25,13 +25,17 @@ describe('Blog app', function() {
   })
 
   describe('Login', function() {
+    
+
     it('succeeds with correct credentials', function() {
+      cy.intercept('/api/login*').as('login')
+      
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
-        .then(() => {
-          cy.contains('Testuser logged in')
-        })
+      cy.wait('@login').its('response.statusCode').should('eq', 200)
+      cy.contains('Testuser logged in')
+        
     })
 
     it('fails with wrong credentials', function() {
@@ -46,7 +50,7 @@ describe('Blog app', function() {
     })
   })
 
-  describe('when logged in', function() {
+  /* describe('when logged in', function() {
     beforeEach(function() {
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
@@ -162,5 +166,5 @@ describe('Blog app', function() {
           })
       })
     })
-  })
+  }) */
 })
