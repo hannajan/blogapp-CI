@@ -29,8 +29,9 @@ describe('Blog app', function() {
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
-
-      cy.contains('Testuser logged in')
+        .then(() => {
+          cy.contains('Testuser logged in')
+        })
     })
 
     it('fails with wrong credentials', function() {
