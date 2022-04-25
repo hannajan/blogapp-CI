@@ -25,17 +25,14 @@ describe('Blog app', function() {
   })
 
   describe('Login', function() {
-    
 
     it('succeeds with correct credentials', function() {
       cy.intercept('/api/login*').as('login')
-      
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
       cy.wait('@login').its('response.statusCode').should('eq', 200)
       cy.contains('Testuser logged in')
-        
     })
 
     it('fails with wrong credentials', function() {
