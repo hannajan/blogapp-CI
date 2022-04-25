@@ -28,6 +28,7 @@ describe('Blog app', function() {
 
     it('succeeds with correct credentials', function() {
       cy.intercept('/api/login*').as('login')
+      cy.wait(4000)
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
