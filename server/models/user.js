@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
   username: {
     type: String,
-  //  unique: true,
+    //  unique: true,
     required: true,
     minLength: 3,
   },
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
   ],
 })
 
-// userSchema.plugin(uniqueValidator)
+//userSchema.plugin(uniqueValidator)
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
