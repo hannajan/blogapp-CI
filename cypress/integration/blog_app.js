@@ -1,5 +1,5 @@
 describe('Blog app', function() {
-  beforeEach(function() {
+  before(function() {
     cy.request('POST', 'http://localhost:8000/api/testing/reset')
     const user = {
       name: 'Testuser',
@@ -25,10 +25,12 @@ describe('Blog app', function() {
   })
 
   describe('Login', function() {
+    beforeEach(function() {
+      cy.visit('http://localhost:8000')
+    })
 
     it('succeeds with correct credentials', function() {
       cy.intercept('/api/login*').as('login')
-      cy.wait(4000)
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
