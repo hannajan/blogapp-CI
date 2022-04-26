@@ -2,7 +2,7 @@ describe('Blog app', function() {
   before(function() {
     cy.request('POST', '/api/testing/reset')
     const user = {
-      name: 'Superuser',
+      name: 'Testuser',
       username: 'test',
       password: 'secret'
     }
