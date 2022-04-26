@@ -1,15 +1,15 @@
-describe('Blog app', function() {
-  beforeEach(function() {
+describe('Blog app', function () {
+  beforeEach(function () {
     cy.request('POST', '/api/testing/reset')
     const user = {
       name: 'Testuser',
       username: 'test',
-      password: 'secret'
+      password: 'secret',
     }
     const anotherUser = {
       name: 'Another user',
       username: 'another',
-      password: 'salainen'
+      password: 'salainen',
     }
 
     cy.request('POST', '/api/users/', user)
@@ -17,16 +17,15 @@ describe('Blog app', function() {
     cy.visit('/')
   })
 
-  it('login form is shown', function() {
+  it('login form is shown', function () {
     cy.get('form').should('contain', 'login')
 
     cy.get('#username').should('have.prop', 'type', 'text')
     cy.get('#password').should('have.prop', 'type', 'password')
   })
 
-  describe('Login', function() {
-
-    it('succeeds with correct credentials', function() {
+  describe('Login', function () {
+    it('succeeds with correct credentials', function () {
       cy.intercept('/api/login*').as('login')
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
@@ -35,7 +34,7 @@ describe('Blog app', function() {
       cy.contains('Testuser logged in')
     })
 
-    it('fails with wrong credentials', function() {
+    it('fails with wrong credentials', function () {
       cy.get('#username').type('test')
       cy.get('#password').type('wrong')
       cy.get('button').click()
@@ -47,14 +46,14 @@ describe('Blog app', function() {
     })
   })
 
-  describe('when logged in', function() {
-    beforeEach(function() {
+  describe('when logged in', function () {
+    beforeEach(function () {
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
       cy.get('button').click()
     })
 
-    it('a blog can be created', function() {
+    it('a blog can be created', function () {
       cy.contains('create blog').click()
 
       cy.get('#title').type('My cypress test blog')
@@ -65,8 +64,8 @@ describe('Blog app', function() {
       cy.get('html').should('contain', 'My cypress test blog')
     })
 
-    describe('when one blog exists', function() {
-      beforeEach(function() {
+    describe('when one blog exists', function () {
+      beforeEach(function () {
         cy.contains('create blog').click()
 
         cy.get('#title').type('Cypress blog')
@@ -75,41 +74,35 @@ describe('Blog app', function() {
         cy.get('#submit-button').click()
       })
 
-      it('a blog can be liked', function() {
-        cy.contains('Cypress blog Test Author')
-          .find('button')
-          .click()
+      it('a blog can be liked', function () {
+        cy.contains('Cypress blog Test Author').find('button').click()
 
         cy.get('#like-button').click()
         cy.contains('likes 1')
       })
 
-      it('a blog can be deleted by its creator', function() {
-        cy.contains('Cypress blog Test Author')
-          .find('button')
-          .click()
+      it('a blog can be deleted by its creator', function () {
+        cy.contains('Cypress blog Test Author').find('button').click()
 
         cy.contains('remove').click()
         cy.get('html').should('not.contain', 'Cypress blog')
       })
 
-      it('a blog cannot be removed by different user', function() {
+      it('a blog cannot be removed by different user', function () {
         cy.contains('logout').click()
         cy.get('#username').type('another')
         cy.get('#password').type('salainen')
         cy.get('button').click()
 
-        cy.contains('Cypress blog Test Author')
-          .find('button')
-          .click()
+        cy.contains('Cypress blog Test Author').find('button').click()
 
         cy.get('.fullBlogView').should('contain', 'Cypress blog')
         cy.get('.fullBlogView').should('not.contain', 'remove')
       })
     })
 
-    describe('when some blogs exist', function() {
-      beforeEach(function() {
+    describe('when some blogs exist', function () {
+      beforeEach(function () {
         cy.contains('create blog').click()
 
         cy.get('#title').type('Blog 1')
@@ -132,7 +125,7 @@ describe('Blog app', function() {
         cy.get('#submit-button').click()
       })
 
-/*       it('blogs are shown ordered by most liked', function() {
+      /*       it('blogs are shown ordered by most liked', function() {
         cy.contains('Blog 1 Author 1').find('button').click()
         cy.contains('Blog 2 Author 2').find('button').click()
         cy.contains('Blog 3 Author 3').find('button').click()
