@@ -12,7 +12,7 @@
     "build": "webpack --mode=production",
     "lint": "eslint .",
     "test": "jest",
-    "test:e2e": "cypress run --record"
+    "test:e2e": "cypress run"
   },
   "engines": {
     "node": ">=10.15"

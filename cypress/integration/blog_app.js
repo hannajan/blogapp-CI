@@ -1,5 +1,5 @@
 describe('Blog app', function() {
-  before(function() {
+  beforeEach(function() {
     cy.request('POST', '/api/testing/reset')
     const user = {
       name: 'Testuser',
@@ -25,9 +25,6 @@ describe('Blog app', function() {
   })
 
   describe('Login', function() {
-    beforeEach(function() {
-      cy.visit('/')
-    })
 
     it('succeeds with correct credentials', function() {
       cy.intercept('/api/login*').as('login')
@@ -50,7 +47,7 @@ describe('Blog app', function() {
     })
   })
 
-  /* describe('when logged in', function() {
+  describe('when logged in', function() {
     beforeEach(function() {
       cy.get('#username').type('test')
       cy.get('#password').type('secret')
@@ -166,5 +163,5 @@ describe('Blog app', function() {
           })
       })
     })
-  }) */
+  })
 })
