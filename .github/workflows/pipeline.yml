@@ -42,10 +42,6 @@ jobs:
     if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     needs: [deployment_pipeline]
     runs-on: ubuntu-20.04
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
-      SECRET: ${{ secrets.SECRET }}
     steps:
       - uses: actions/checkout@v2
       - name: deploy to heroku
