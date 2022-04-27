@@ -38,3 +38,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
+  deploy_to_heroku:
+  if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+  needs: [deployment_pipeline]
+  runs-on: ubuntu-20.04
+  steps:
+    - uses: actions/checkout@v2
+    - name: deploy to heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "hannajan-blogapp"
+        heroku_email: "hannajant@gmail.com"
