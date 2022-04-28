@@ -1,0 +1,14 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '2 11 * * 1,4'
+
+jobs:
+  health_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check health
+        uses: jtalk/url-health-check-action@v2
+        with:
+          url: https://hannajan-blogapp.herokuapp.com
