@@ -44,6 +44,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
@@ -53,3 +55,9 @@ jobs:
           healthcheck: "https://hannajan-blogapp.herokuapp.com/check/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+      - name: tag release
+        uses: anothrNick/github-tag-action@1.36.0
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
