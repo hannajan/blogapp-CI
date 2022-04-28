@@ -52,3 +52,4 @@ jobs:
           heroku_email: "hannajant@gmail.com"
           healthcheck: "https://hannajan-blogapp.herokuapp.com/check/health"
           checkstring: "ok"
+          rollbackonhealthcheckfailed: true
