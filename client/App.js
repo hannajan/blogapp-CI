@@ -98,7 +98,6 @@ const App = () => {
     const updatedBlogsArray = await blogs
       .map((b) => (blog.id === b.id ? returnedBlog : b))
       .sort((a, b) => b.likes - a.likes)
-    console.log('ye', updatedBlogsArray)
     setBlogs(updatedBlogsArray)
   }
 
